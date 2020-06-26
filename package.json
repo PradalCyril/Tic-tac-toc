@@ -1,5 +1,5 @@
 {
-  "name": "tic-tac-toc",
+  "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
