@@ -54,9 +54,9 @@ const isWin = (cells) => {
 
     compteur = (ligne1.compteur + ligne2.compteur + ligne3.compteur + column1.compteur + column2.compteur + column3.compteur + diago1.compteur + diago2.compteur);
     if (ligne1.isAllign || ligne2.isAllign || ligne3.isAllign || column1.isAllign || column2.isAllign || column3.isAllign || diago1.isAllign || diago2.isAllign) {
-        return { stopGame: true };
+        return { stopGame: true, isWin: true };
     } else {
-        return { stopGame: compteur === 8 };
+        return { stopGame: compteur === 8, isWin: false };
     }
 }
 
@@ -150,32 +150,33 @@ class GamePage extends Component {
         const { playerNameTurn, cells } = this.state;
         const { name1 } = this.props.match.params;
         const haveWinner = isWin(cells)
+        const title = haveWinner.isWin ? (<h1 className='text-turn'> Bravo {playerNameTurn}!!!!! </h1>) : haveWinner.stopGame? (<h1>Match Nul !</h1>) : (<h1 className='text-turn'> C'est au tour de {playerNameTurn}</h1>);
         return (
             <div className='container'>
 
                 <div>
-                    <h1 className='text-turn'> C'est au tour de {playerNameTurn}</h1>
+                    {title}
                     <div>
                         <div className='game-row'>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '1-1', isWin: haveWinner.isWin })}>{cells['1-1'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '1-2', isWin: haveWinner.isWin })}>{cells['1-2'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '1-3', isWin: haveWinner.isWin })}>{cells['1-3'].icon}</div>
+                            <div className='game-cells cells-1' onClick={() => this.endTurn({ name: '1-1', isWin: haveWinner.stopGame })}>{cells['1-1'].icon}</div>
+                            <div className='game-cells cells-2' onClick={() => this.endTurn({ name: '1-2', isWin: haveWinner.stopGame })}>{cells['1-2'].icon}</div>
+                            <div className='game-cells cells-3' onClick={() => this.endTurn({ name: '1-3', isWin: haveWinner.stopGame })}>{cells['1-3'].icon}</div>
                         </div>
                         <div className='game-row'>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '2-1', isWin: haveWinner.isWin })}>{cells['2-1'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '2-2', isWin: haveWinner.isWin })}>{cells['2-2'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '2-3', isWin: haveWinner.isWin })}>{cells['2-3'].icon}</div>
+                            <div className='game-cells cells-4' onClick={() => this.endTurn({ name: '2-1', isWin: haveWinner.stopGame })}>{cells['2-1'].icon}</div>
+                            <div className='game-cells cells-5' onClick={() => this.endTurn({ name: '2-2', isWin: haveWinner.stopGame })}>{cells['2-2'].icon}</div>
+                            <div className='game-cells cells-6' onClick={() => this.endTurn({ name: '2-3', isWin: haveWinner.stopGame })}>{cells['2-3'].icon}</div>
                         </div>
                         <div className='game-row'>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '3-1', isWin: haveWinner.isWin })}>{cells['3-1'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '3-2', isWin: haveWinner.isWin })}>{cells['3-2'].icon}</div>
-                            <div className='game-cells' onClick={() => this.endTurn({ name: '3-3', isWin: haveWinner.isWin })}>{cells['3-3'].icon}</div>
+                            <div className='game-cells cells-7' onClick={() => this.endTurn({ name: '3-1', isWin: haveWinner.stopGame })}>{cells['3-1'].icon}</div>
+                            <div className='game-cells cells-8' onClick={() => this.endTurn({ name: '3-2', isWin: haveWinner.stopGame })}>{cells['3-2'].icon}</div>
+                            <div className='game-cells cells-9' onClick={() => this.endTurn({ name: '3-3', isWin: haveWinner.stopGame })}>{cells['3-3'].icon}</div>
                         </div>
                     </div>
                     {haveWinner.stopGame &&
                         <div className='user-end-game'>
-                            <Link to='/' ><button>Rejouer avec de nouvelles personnes ?</button></Link>
-                            <button onClick={() => this.resetValues(name1)} >Rejouer avec les mêmes personnes ?</button>
+                            <Link to='/' ><button className='button'>Rejouer avec de nouvelles personnes ?</button></Link>
+                            <button className='button' onClick={() => this.resetValues(name1)} >Rejouer avec les mêmes personnes ?</button>
                         </div>}
                 </div>
 
