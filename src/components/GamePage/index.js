@@ -3,6 +3,7 @@ import croix from '../../assets/croix.svg';
 import rond from '../../assets/rond.svg';
 import { Link, withRouter } from 'react-router-dom';
 import './index.css';
+import Cell from './Cell/Cell';
 
 const isThreeCellsAlign = (data) => {
     const { compteur, nameCells, cells } = data
@@ -148,9 +149,15 @@ class GamePage extends Component {
 
     render() {
         const { playerNameTurn, cells } = this.state;
-        const { name1 } = this.props.match.params;
+        const { name1, name2 } = this.props.match.params;
         const haveWinner = isWin(cells)
-        const title = haveWinner.isWin ? (<h1 className='text-turn'> Bravo {playerNameTurn}!!!!! </h1>) : haveWinner.stopGame? (<h1>Match Nul !</h1>) : (<h1 className='text-turn'> C'est au tour de {playerNameTurn}</h1>);
+        const playerWinner = haveWinner.isWin ? playerNameTurn === name1 ? name2 : name1: '';
+        const title = haveWinner.isWin ? (<h1 className='text-turn'> Bravo {playerWinner}!!!!! </h1>) : haveWinner.stopGame? (<h1>Match Nul !</h1>) : (<h1 className='text-turn'> C'est au tour de {playerNameTurn}</h1>);
+        const props = {
+            haveWinner: haveWinner,
+            cells: cells,
+            endTurn: this.endTurn
+        }
         return (
             <div className='container'>
 
@@ -158,20 +165,20 @@ class GamePage extends Component {
                     {title}
                     <div>
                         <div className='game-row'>
-                            <div className='game-cells cells-1' onClick={() => this.endTurn({ name: '1-1', isWin: haveWinner.stopGame })}>{cells['1-1'].icon}</div>
-                            <div className='game-cells cells-2' onClick={() => this.endTurn({ name: '1-2', isWin: haveWinner.stopGame })}>{cells['1-2'].icon}</div>
-                            <div className='game-cells cells-3' onClick={() => this.endTurn({ name: '1-3', isWin: haveWinner.stopGame })}>{cells['1-3'].icon}</div>
+                            <Cell className='game-cells cells-1' name='1-1' {...props}/>
+                            <Cell className='game-cells cells-2' name='1-2' {...props}/>
+                            <Cell className='game-cells cells-3' name='1-3' {...props}/>
                         </div>
                         <div className='game-row'>
-                            <div className='game-cells cells-4' onClick={() => this.endTurn({ name: '2-1', isWin: haveWinner.stopGame })}>{cells['2-1'].icon}</div>
-                            <div className='game-cells cells-5' onClick={() => this.endTurn({ name: '2-2', isWin: haveWinner.stopGame })}>{cells['2-2'].icon}</div>
-                            <div className='game-cells cells-6' onClick={() => this.endTurn({ name: '2-3', isWin: haveWinner.stopGame })}>{cells['2-3'].icon}</div>
-                        </div>
+                            <Cell className='game-cells cells-4' name='2-1' {...props} />
+                            <Cell className='game-cells cells-5' name='2-2' {...props} />
+                            <Cell className='game-cells cells-6' name='2-3' {...props} />
+                       </div>
                         <div className='game-row'>
-                            <div className='game-cells cells-7' onClick={() => this.endTurn({ name: '3-1', isWin: haveWinner.stopGame })}>{cells['3-1'].icon}</div>
-                            <div className='game-cells cells-8' onClick={() => this.endTurn({ name: '3-2', isWin: haveWinner.stopGame })}>{cells['3-2'].icon}</div>
-                            <div className='game-cells cells-9' onClick={() => this.endTurn({ name: '3-3', isWin: haveWinner.stopGame })}>{cells['3-3'].icon}</div>
-                        </div>
+                            <Cell className='game-cells cells-7' name='3-1' {...props} />
+                            <Cell className='game-cells cells-8' name='3-2' {...props} />
+                            <Cell className='game-cells cells-9' name='3-3' {...props} />
+                       </div>
                     </div>
                     {haveWinner.stopGame &&
                         <div className='user-end-game'>
