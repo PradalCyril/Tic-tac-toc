@@ -4,6 +4,8 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
+    user-select: none;
+    background-image: url("../../assets/papier-ancien.jpg")
 }
 .text-turn{
     word-break: break-all;
@@ -15,8 +17,43 @@
 .game-cells{
     width: 100px;
     height: 100px;
-    border: 1px solid black;
+    border: solid black;
 }
+.game-cells:hover{
+    background-color: rgba(0, 255, 106, 0.349)
+}
+.cells-1{
+    border-width: 2px 1px 0 2px;
+    border-top-left-radius: 40%;
+}
+.cells-2{
+    border-width: 2px 1px 0 1px;
+}
+.cells-3{
+    border-width: 2px 2px 0 1px;
+    border-top-right-radius: 40%;
+}
+.cells-4{
+    border-width: 2px 1px 0 2px;
+}
+.cells-5{
+    border-width: 2px 1px 0 1px;
+}
+.cells-6{
+    border-width: 2px 2px 0 1px;
+}
+.cells-7{
+    border-width: 2px 1px 2px 2px;
+    border-bottom-left-radius: 40%;
+}
+.cells-8{
+    border-width: 2px 1px 2px 1px;
+}
+.cells-9{
+    border-width: 2px 2px 2px 1px;
+    border-bottom-right-radius: 40%;
+}
+
 .player2-img{
     width: 100%;
     height: 100%;
@@ -28,9 +65,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 75px;
+    height: 100 px;
 }
-button{
+.button{
     width:255px;
 }
 @media screen and (min-width: 640px) {
