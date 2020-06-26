@@ -1,0 +1,15 @@
+.home-container{
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.input{
+    font-size: 1.5em;
+    height: 1.5em;
+    margin: 10px auto;
+    width : 200px;
+}
