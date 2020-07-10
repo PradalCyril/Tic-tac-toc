@@ -7,6 +7,19 @@
     user-select: none;
     background-image: url("../../assets/papier-ancien.jpg")
 }
+.player-1{
+    color: red;
+}
+.player-2{
+    color: green;
+}
+.player-name{
+    line-height: 40px;
+    margin: 20px 0; 
+}
+.player-container{
+    height: 80px;
+}
 .text-turn{
     word-break: break-all;
 }

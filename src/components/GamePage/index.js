@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import croix from '../../assets/croix.svg';
-import rond from '../../assets/rond.svg';
+
 import { Link, withRouter } from 'react-router-dom';
 import './index.css';
 import Cell from './Cell/Cell';
@@ -67,18 +66,23 @@ class GamePage extends Component {
         this.state = {
             playerNameTurn: this.props.match.params.name1,
             cells: {
-                '1-1': { checked: false, icon: (<div></div>) },
-                '1-2': { checked: false, icon: (<div></div>) },
-                '1-3': { checked: false, icon: (<div></div>) },
-                '2-1': { checked: false, icon: (<div></div>) },
-                '2-2': { checked: false, icon: (<div></div>) },
-                '2-3': { checked: false, icon: (<div></div>) },
-                '3-1': { checked: false, icon: (<div></div>) },
-                '3-2': { checked: false, icon: (<div></div>) },
-                '3-3': { checked: false, icon: (<div></div>) },
+                '1-1': { checked: false, checkedBy: '' },
+                '1-2': { checked: false, checkedBy: '' },
+                '1-3': { checked: false, checkedBy: '' },
+                '2-1': { checked: false, checkedBy: '' },
+                '2-2': { checked: false, checkedBy: '' },
+                '2-3': { checked: false, checkedBy: '' },
+                '3-1': { checked: false, checkedBy: '' },
+                '3-2': { checked: false, checkedBy: '' },
+                '3-3': { checked: false, checkedBy: '' },
             }
         }
     }
+
+    // shouldComponentUpdate = (nextProps, nextState) => {
+    //     if (JSON.stringify(nextState) !== JSON.stringify(this.state))
+    //     return false;
+    // }
 
     endTurn = (cellData) => {
         const { playerNameTurn, cells } = this.state;
@@ -94,21 +98,18 @@ class GamePage extends Component {
     }
     updateCells = (data) => {
         const { playerNameTurn, cells, name1, name2, cellData } = data;
-        let playerName, icon;
+        let playerName;
         if (playerNameTurn !== name1) {
             playerName = name2;
-            icon = (<img src={croix} className="player2-img" alt="croix" />);
         } else {
             playerName = name1;
-            icon = (<img src={rond} className="player2-img" alt="rond" />);
         }
         this.setState({
             cells: {
                 ...cells,
                 [cellData.name]: {
                     checked: true,
-                    checkedBy: playerName,
-                    icon: icon
+                    checkedBy: playerName
                 }
             }
         });
@@ -152,34 +153,43 @@ class GamePage extends Component {
         const { name1, name2 } = this.props.match.params;
         const haveWinner = isWin(cells)
         const playerWinner = haveWinner.isWin ? playerNameTurn === name1 ? name2 : name1: '';
-        const title = haveWinner.isWin ? (<h1 className='text-turn'> Bravo {playerWinner}!!!!! </h1>) : haveWinner.stopGame? (<h1>Match Nul !</h1>) : (<h1 className='text-turn'> C'est au tour de {playerNameTurn}</h1>);
+        const title = haveWinner.isWin ? (<h1 className='text-turn'> Bravo {playerWinner}!!!!! </h1>) : haveWinner.stopGame? (<h1>Match Nul !</h1>) : '';
         const props = {
+            playerNameTurn,
+            name1,
+            name2,
             haveWinner: haveWinner,
             cells: cells,
             endTurn: this.endTurn
         }
+        const player1Turn = playerNameTurn === name1 && !haveWinner.stopGame ? <h1 className='player-name player-1'> {name1}</h1> : <div className='player-container' />
+        const player2Turn = playerNameTurn === name2 && !haveWinner.stopGame ? <h1 className='player-name player-2'> {name2}</h1> : <div className='player-container' />
+        const grid = (
+            <div>
+                <div className='game-row'>
+                    <Cell className='game-cells cells-1' name='1-1' {...props} />
+                    <Cell className='game-cells cells-2' name='1-2' {...props} />
+                    <Cell className='game-cells cells-3' name='1-3' {...props} />
+                </div>
+                <div className='game-row'>
+                    <Cell className='game-cells cells-4' name='2-1' {...props} />
+                    <Cell className='game-cells cells-5' name='2-2' {...props} />
+                    <Cell className='game-cells cells-6' name='2-3' {...props} />
+                </div>
+                <div className='game-row'>
+                    <Cell className='game-cells cells-7' name='3-1' {...props} />
+                    <Cell className='game-cells cells-8' name='3-2' {...props} />
+                    <Cell className='game-cells cells-9' name='3-3' {...props} />
+                </div>
+            </div>
+        )
         return (
             <div className='container'>
-
                 <div>
                     {title}
-                    <div>
-                        <div className='game-row'>
-                            <Cell className='game-cells cells-1' name='1-1' {...props}/>
-                            <Cell className='game-cells cells-2' name='1-2' {...props}/>
-                            <Cell className='game-cells cells-3' name='1-3' {...props}/>
-                        </div>
-                        <div className='game-row'>
-                            <Cell className='game-cells cells-4' name='2-1' {...props} />
-                            <Cell className='game-cells cells-5' name='2-2' {...props} />
-                            <Cell className='game-cells cells-6' name='2-3' {...props} />
-                       </div>
-                        <div className='game-row'>
-                            <Cell className='game-cells cells-7' name='3-1' {...props} />
-                            <Cell className='game-cells cells-8' name='3-2' {...props} />
-                            <Cell className='game-cells cells-9' name='3-3' {...props} />
-                       </div>
-                    </div>
+                    {player1Turn}
+                    {!haveWinner.stopGame && grid}
+                    {player2Turn}
                     {haveWinner.stopGame &&
                         <div className='user-end-game'>
                             <Link to='/' ><button className='button'>Rejouer avec de nouvelles personnes ?</button></Link>
