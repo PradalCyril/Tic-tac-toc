@@ -9,6 +9,7 @@
 }
 .player-1{
     color: red;
+    transform: rotate(180deg);
 }
 .player-2{
     color: green;

@@ -64,7 +64,7 @@ class GamePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            playerNameTurn: this.props.match.params.name1,
+            playerNameTurn: Math.floor(Math.random() * (2 - 1 + 1)) + 1 === 1 ? this.props.match.params.name1 : this.props.match.params.name2,
             cells: {
                 '1-1': { checked: false, checkedBy: '' },
                 '1-2': { checked: false, checkedBy: '' },
@@ -131,9 +131,9 @@ class GamePage extends Component {
     }
 
 
-    resetValues = (name1) => {
+    resetValues = (name1, name2) => {
         this.setState({
-            playerNameTurn: name1,
+            playerNameTurn: Math.floor(Math.random() * (2 - 1 + 1)) + 1 === 1 ? name1 : name2,
             cells: {
                 '1-1': { checked: false, icon: (<div></div>) },
                 '1-2': { checked: false, icon: (<div></div>) },
@@ -193,7 +193,7 @@ class GamePage extends Component {
                     {haveWinner.stopGame &&
                         <div className='user-end-game'>
                             <Link to='/' ><button className='button'>Rejouer avec de nouvelles personnes ?</button></Link>
-                            <button className='button' onClick={() => this.resetValues(name1)} >Rejouer avec les mêmes personnes ?</button>
+                            <button className='button' onClick={() => this.resetValues(name1, name2)} >Rejouer avec les mêmes personnes ?</button>
                         </div>}
                 </div>
 
