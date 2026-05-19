@@ -5,9 +5,12 @@ import { RetroGrid } from '@/components/magicui/retro-grid'
 import { AuroraText } from '@/components/magicui/aurora-text'
 import { ShimmerButton } from '@/components/magicui/shimmer-button'
 import { MagicCard } from '@/components/magicui/magic-card'
+import { BorderBeam } from '@/components/magicui/border-beam'
+import { useIsTouchDevice } from '@/lib/use-is-touch-device'
 
 const HomePage = () => {
   const navigate = useNavigate()
+  const isTouch = useIsTouchDevice()
   const [players, setPlayers] = useState({ player1: '', player2: '' })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -39,6 +42,7 @@ const HomePage = () => {
           <AuroraText colors={['#a78bfa', '#22d3ee', '#f472b6', '#a78bfa']}>Tic Tac Toe</AuroraText>
         </h1>
 
+        <div className='relative rounded-2xl'>
         <MagicCard
           className='rounded-2xl p-8'
           gradientFrom='#a78bfa'
@@ -86,6 +90,25 @@ const HomePage = () => {
             </ShimmerButton>
           </form>
         </MagicCard>
+          {isTouch && (
+            <>
+              <BorderBeam
+                size={90}
+                duration={8}
+                colorFrom='#a78bfa'
+                colorTo='#22d3ee'
+              />
+              <BorderBeam
+                size={90}
+                duration={8}
+                delay={4}
+                colorFrom='#f472b6'
+                colorTo='#a78bfa'
+                reverse
+              />
+            </>
+          )}
+        </div>
       </motion.div>
     </div>
   )
