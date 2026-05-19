@@ -1,4 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react'
+import { BorderBeam } from '@/components/magicui/border-beam'
+import { useIsTouchDevice } from '@/lib/use-is-touch-device'
 import { cn } from '@/lib/utils'
 
 type CellName = '1-1' | '1-2' | '1-3' | '2-1' | '2-2' | '2-3' | '3-1' | '3-2' | '3-3'
@@ -12,6 +14,8 @@ type Props = {
 }
 
 const Cell = ({ name, ownedBy, isPlayer1Icon, disabled, onPlay }: Props) => {
+  const isTouch = useIsTouchDevice()
+
   const handleClick = () => {
     if (disabled) return
     onPlay(name)
@@ -52,6 +56,14 @@ const Cell = ({ name, ownedBy, isPlayer1Icon, disabled, onPlay }: Props) => {
           </motion.span>
         )}
       </AnimatePresence>
+      {isTouch && isClickable && (
+        <BorderBeam
+          size={40}
+          duration={6}
+          colorFrom='#a78bfa'
+          colorTo='#22d3ee'
+        />
+      )}
     </button>
   )
 }
