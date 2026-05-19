@@ -347,6 +347,7 @@ dist-ssr
 build
 *.local
 *.tsbuildinfo
+.vite
 
 # Editor
 .vscode/*
