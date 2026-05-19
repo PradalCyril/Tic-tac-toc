@@ -61,13 +61,12 @@ button{
   }
 
 .logo{
-  width:300px;
-  height: 83,33;
+  width: 300px;
+  height: auto;
   margin-bottom: 100px;
 }
 @media screen and (min-width: 640px) {
   .logo{
     width: 500px;
-    height: 138,88px;
   }
 }
